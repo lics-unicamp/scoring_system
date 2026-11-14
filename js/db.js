@@ -129,7 +129,7 @@ export async function submitPointsBatch(uids, transactionData, admin) {
             atividade: transactionData.atividade,
             descricao: transactionData.descricao || transactionData.atividade,
             pontos: transactionData.pontos,
-            data: transactionData.data ? Timestamp.fromDate(new Date(transactionData.data)) : serverTimestamp(),
+            data: transactionData.data ? Timestamp.fromDate(new Date(transactionData.data+'T12:00:00')) : serverTimestamp(),
             semestreId: transactionData.semestreId || semestreAtual
         });
 
