@@ -220,7 +220,9 @@ async function submitPoints() {
     if (!atividade) { showToast('Selecione uma atividade.', 'error'); return; }
 
     const pontos = getPontosAtividade(categoria, atividade);
-    const semestreId = getSemestreAtual(dataInput ? new Date(dataInput) : new Date());
+    // "YYYY-MM-DD" sem horário é lido como UTC; T12:00:00 força horário local
+    const dataObj = dataInput ? new Date(`${dataInput}T12:00:00`) : null;
+    const semestreId = getSemestreAtual(dataObj ?? new Date());
     const user = getCurrentUser();
 
     const submitBtn = document.getElementById('btn-submit-points');
@@ -233,7 +235,7 @@ async function submitPoints() {
             categoria, atividade,
             descricao: descricao || atividade,
             pontos,
-            data: dataInput || null,
+            data: dataObj,
             semestreId
         }, { uid: user.uid, nome: user.nome });
 
